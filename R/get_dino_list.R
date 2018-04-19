@@ -5,7 +5,6 @@
 #' @import rvest
 #' @import xml2
 #' @import data.table
-#'
 get_dino_list <- function(){
   tmp <-
     xml2::read_html("https://en.wikipedia.org/wiki/List_of_dinosaur_genera") %>%
@@ -20,5 +19,5 @@ get_dino_list <- function(){
 
   tmp$id <- tolower(gsub("/wiki/", "", tmp$href))
   tmp$source <- "https://en.wikipedia.org/wiki/List_of_dinosaur_genera"
-  tmp
+  tmp[grepl("^/wiki/", tmp$href)]
 }
