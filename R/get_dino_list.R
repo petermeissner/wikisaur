@@ -18,10 +18,15 @@ get_dino_list <- function(){
     data.table::rbindlist(fill = TRUE)
 
   # filter
-  tmp$id <- tolower(gsub("/wiki/", "", tmp$href))
+  tmp$id     <- tolower(gsub("/wiki/", "", tmp$href))
   tmp$source <- "https://en.wikipedia.org/wiki/List_of_dinosaur_genera"
-  tmp <- tmp[grepl("^/wiki/", tmp$href)]
-  tmp$class <- NULL
+  tmp        <- tmp[grepl("^/wiki/", tmp$href)]
+  tmp$class  <- NULL
+  tmp$href   <- paste0("https://en.wikipedia.org", tmp$href)
+
+  # sort
+  tmp        <- tmp[, c("id", "title", "source", "href")]
+  names(tmp) <-       c("id", "title", "source", "link")
 
   # return
   as.data.frame(tmp, stringsAsFactors = FALSE)
